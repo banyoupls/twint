@@ -1,6 +1,7 @@
 import re
 import time
-
+import os
+import random
 import requests
 import logging as logme
 
@@ -29,8 +30,17 @@ class Token:
             # The request is newly prepared on each retry because of potential cookie updates.
             req = self._session.prepare_request(requests.Request('GET', self.url))
             logme.debug(f'Retrieving {req.url}')
+            if "proxy.txt" in os.listdir():
+                print("load proxy")
+                file = open("proxy.txt")
+                proxy = random.choice(file.read().split('\n'))
+                file.close()
+                proxy_ = {"http":proxy,"https":proxy}
+            else:
+                print("proxy not used")
+                proxy_ = None
             try:
-                r = self._session.send(req, allow_redirects=True, timeout=self._timeout)
+                r = self._session.send(req, allow_redirects=True, timeout=self._timeout, proxies=proxy_)
             except requests.exceptions.RequestException as exc:
                 if attempt < self._retries:
                     retrying = ', retrying'
