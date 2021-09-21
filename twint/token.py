@@ -20,7 +20,13 @@ class Token:
     def __init__(self, config):
         self._session = requests.Session()
         #self._session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0'})
-        self._session.headers.update({'User-Agent': UserAgent().chrome})
+        #self._session.headers.update({'User-Agent': })
+        try:
+            self.ua = UserAgent().chrome
+        except Exception as e:
+            print(e)
+            self.ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"
+        self._session.headers.update({'User-Agent': self.ua})
         self.config = config
         self._retries = 30
         self._timeout = 20
@@ -40,6 +46,7 @@ class Token:
             else:
                 print("proxy not used")
                 proxy_ = None
+            self.proxy = proxy_
             try:
                 r = self._session.send(req, allow_redirects=True, timeout=self._timeout, proxies=proxy_)
             except requests.exceptions.RequestException as exc:
@@ -77,4 +84,4 @@ class Token:
             self.config.Guest_token = str(match.group(1))
         else:
             self.config.Guest_token = None
-            raise RefreshTokenException('Could not find the Guest token in HTML')
+            raise RefreshTokenException(f'Could not find the Guest token in HTML {self.proxy}{}')
