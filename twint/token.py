@@ -84,4 +84,4 @@ class Token:
             self.config.Guest_token = str(match.group(1))
         else:
             self.config.Guest_token = None
-            raise RefreshTokenException(f'Could not find the Guest token in HTML {self.proxy}{}')
+            raise RefreshTokenException(f'Could not find the Guest token in HTML {self.proxy}{self.ua}')
