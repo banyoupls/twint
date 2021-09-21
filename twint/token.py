@@ -4,7 +4,7 @@ import os
 import random
 import requests
 import logging as logme
-
+from fake_useragent import UserAgent
 
 class TokenExpiryException(Exception):
     def __init__(self, msg):
@@ -19,10 +19,11 @@ class RefreshTokenException(Exception):
 class Token:
     def __init__(self, config):
         self._session = requests.Session()
-        self._session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0'})
+        #self._session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0'})
+        self._session.headers.update({'User-Agent': UserAgent().chrome})
         self.config = config
-        self._retries = 5
-        self._timeout = 10
+        self._retries = 30
+        self._timeout = 20
         self.url = 'https://twitter.com'
 
     def _request(self):
