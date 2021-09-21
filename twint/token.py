@@ -21,11 +21,11 @@ class Token:
         self._session = requests.Session()
         #self._session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0'})
         #self._session.headers.update({'User-Agent': })
-        try:
-            self.ua = UserAgent().firefox
-        except Exception as e:
-            print(e)
-            self.ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"
+        #try:
+        #    self.ua = UserAgent().firefox
+        #except Exception as e:
+        #    print(e)
+        self.ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"
         self._session.headers.update({'User-Agent': self.ua})
         self.config = config
         self._retries = 30
