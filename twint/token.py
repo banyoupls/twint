@@ -48,7 +48,7 @@ class Token:
                 else:
                     retrying = ''
                     level = logme.ERROR
-                logme.log(level, f'Error retrieving {req.url}: {exc!r}{retrying}')
+                logme.log(level, f'Error retrieving {req.url}: {exc!r}{retrying}{proxy_}')
             else:
                 success, msg = (True, None)
                 msg = f': {msg}' if msg else ''
